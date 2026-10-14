@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Future Fair Season Plan</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,8 +20,10 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+img{max-width:100%}
+button{-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 #sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .page{position:relative;z-index:1}
 .wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -40,6 +46,7 @@ h3{font-family:var(--wide);font-stretch:112%;font-weight:800;font-size:1rem;line
 .logo{height:22px;width:auto;flex:none;display:block}
 .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;min-width:0;margin-left:auto}
 .chips::-webkit-scrollbar{display:none}
+@media (max-width:899px){.chips{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:24px}}
 .chips a{flex:none;text-decoration:none;color:var(--muted);font-size:.8rem;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line)}
 .chips a:hover{color:var(--fg);border-color:var(--green)}
 
@@ -89,6 +96,7 @@ section[id]{scroll-margin-top:64px}
 .impact.hi{background:var(--green);color:var(--green-ink)}
 .impact.md{border:1px solid rgba(149,201,90,.6);color:var(--green-hi)}
 .opp p{color:var(--muted);font-size:.92rem}
+.more{display:block;margin:16px auto 0;font:600 .9rem var(--body);color:var(--green-ink);background:var(--green);border:0;border-radius:12px;padding:12px 20px;cursor:pointer}
 .count{font-family:var(--mono);color:var(--muted);font-size:.8rem;text-align:center;margin-top:16px}
 
 /* Season */
@@ -253,6 +261,17 @@ footer .logo{height:18px;opacity:.75}
   .sample{grid-template-columns:1fr}
   .tile{aspect-ratio:4/5;min-height:0}
 }
+@media (max-width:639px){
+  section{padding-block:48px}
+  .opp{padding:16px;gap:8px}
+  .phase{padding:18px}
+  .feature{height:260px}
+  .t3{justify-content:center;padding:18px}
+  .tile{aspect-ratio:1/1}
+  .sample .info{padding:18px}
+  .filters{gap:6px}
+  .filters button{padding:8px 13px}
+}
 @media (max-width:420px){
   .timeline{gap:6px}
   .timeline .yr{font-size:.75rem}
@@ -338,6 +357,7 @@ footer .logo{height:18px;opacity:.75}
       <button type="button" data-f="ground" aria-pressed="false">On ground</button>
     </div>
     <div class="opps" id="opps"></div>
+    <button type="button" class="more" id="oppMore" hidden>Show all 28 opportunities</button>
     <p class="count" id="oppCount"></p>
   </section>
 
@@ -637,13 +657,18 @@ footer .logo{height:18px;opacity:.75}
     web:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
     ground:'<path d="M3 20h18"/><path d="M5 20V9l7-4 7 4v11"/><path d="M10 20v-5h4v5"/>'
   };
-  var box = document.getElementById('opps'), cnt = document.getElementById('oppCount');
+  var box = document.getElementById('opps'), cnt = document.getElementById('oppCount'), more = document.getElementById('oppMore');
+  var expanded = false, cur = 'all';
+  var phone = window.matchMedia ? matchMedia('(max-width:639px)') : {matches:false};
   function render(f){
-    var list = O.filter(function(o){return f==='all'||o[0]===f});
+    cur = f;
+    var full = O.filter(function(o){return f==='all'||o[0]===f});
+    var list = (phone.matches && f==='all' && !expanded) ? full.slice(0,8) : full;
+    more.hidden = list.length === full.length;
     box.innerHTML = list.map(function(o){
       return '<article class="opp card"><div class="opp-top"><span class="ico"><svg viewBox="0 0 24 24">'+ICON[o[0]]+'</svg></span><div class="meta"><span class="tagc">'+CAT[o[0]]+'</span><h3>'+o[1]+'</h3></div><span class="impact '+o[3]+'">'+(o[3]==='hi'?'High impact':'Support')+'</span></div><p>'+o[2]+'</p></article>';
     }).join('');
-    cnt.textContent = list.length + (list.length===1?' opportunity':' opportunities') + (f==='all'?' in total':' in '+CAT[f]);
+    cnt.textContent = full.length + (list.length===1?' opportunity':' opportunities') + (f==='all'?' in total':' in '+CAT[f]);
   }
   document.querySelectorAll('.filters button').forEach(function(b){
     b.addEventListener('click',function(){
@@ -651,6 +676,8 @@ footer .logo{height:18px;opacity:.75}
       b.setAttribute('aria-pressed','true'); render(b.dataset.f);
     });
   });
+  more.addEventListener('click',function(){expanded=true;render(cur)});
+  if(phone.addEventListener) phone.addEventListener('change',function(){render(cur)});
   render('all');
 
   /* Copy buttons */
@@ -706,3 +733,5 @@ footer .logo{height:18px;opacity:.75}
   if(!reduce) requestAnimationFrame(frame);
 })();
 </script>
+
+</html>
