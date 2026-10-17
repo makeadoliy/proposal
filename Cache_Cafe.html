@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cache Community Playbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Manrope:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap">
+<style>
+/* Layout: one calm reading column (max 1080) under a pendant-light hero; jute and straw textures as section dividers; a vertical month timeline as the spine. */
+:root{
+  --bg:#EFE5D3; --surface:#F7F0E3; --line:#D6C5A8;
+  --fg:#2B1B12; --muted:#6E5A47; --brown:#5A3622; --accent:#9A6438; --glow:#E7B86C;
+  --ink-on-brown:#F5EBDB;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Manrope","Segoe UI",system-ui,sans-serif;
+  --f-hand:"Caveat","Comic Sans MS",cursive;
+  --f-mono:"Manrope","Segoe UI",system-ui,sans-serif;
+  --radius:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1B120C; --surface:#251912; --line:#3E2C20;
+  --fg:#F0E4D0; --muted:#B8A288; --brown:#3A2418; --accent:#D09A61; --glow:#F0C27A;
+  --ink-on-brown:#F5EBDB; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1B120C; --surface:#251912; --line:#3E2C20;
+  --fg:#F0E4D0; --muted:#B8A288; --brown:#3A2418; --accent:#D09A61; --glow:#F0C27A;
+  --ink-on-brown:#F5EBDB; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--brown)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1;letter-spacing:-.01em}
+h2{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800}
+h3{font-size:1.15rem;font-weight:600}
+p{margin:0;max-width:65ch}
+.eyebrow{font-family:var(--f-mono);font-weight:600;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.hand{font-family:var(--f-hand);font-size:1.6rem;color:var(--accent);line-height:1.1}
+.muted{color:var(--muted)}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--brown);color:var(--ink-on-brown)}
+.bar .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:10px;font-family:var(--f-mono);font-weight:600;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.bar nav{display:flex;gap:18px;flex-wrap:wrap}
+.bar a{color:inherit;text-decoration:none;opacity:.8}
+.bar a:hover,.bar a:focus-visible{opacity:1;text-decoration:underline}
+@media (max-width:640px){.bar nav{display:none}}
+
+/* hero */
+.hero{background:var(--brown);color:var(--ink-on-brown);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.08;
+  background:repeating-linear-gradient(45deg,var(--ink-on-brown) 0 1px,transparent 1px 7px),repeating-linear-gradient(-45deg,var(--ink-on-brown) 0 1px,transparent 1px 7px)}
+.hero .wrap{position:relative;z-index:1;padding-block:0 56px;display:grid;gap:28px}
+.lamps{width:100%;max-width:560px;height:auto;aspect-ratio:560/150;display:block;margin-bottom:-8px}
+.lamp{transform-origin:top center;animation:sway 6s ease-in-out infinite}
+.lamp:nth-child(2){animation-delay:-1.4s}.lamp:nth-child(3){animation-delay:-2.6s}.lamp:nth-child(4){animation-delay:-.7s}.lamp:nth-child(5){animation-delay:-3.3s}
+@keyframes sway{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg)}}
+@media (prefers-reduced-motion:reduce){.lamp{animation:none}}
+.hero h1{font-size:clamp(3.4rem,13vw,7.5rem);font-weight:800;letter-spacing:-.04em;line-height:.9}
+.hero .lede{font-size:clamp(1.05rem,2.4vw,1.3rem);max-width:52ch;color:var(--ink-on-brown);opacity:.9}
+.hero .hand{color:var(--glow)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--f-mono);font-weight:600;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+
+/* straw divider */
+.straw{height:14px;background:repeating-linear-gradient(90deg,var(--accent) 0 2px,transparent 2px 6px,var(--line) 6px 7px,transparent 7px 11px);opacity:.55}
+
+section{padding-block:64px}
+section + section{border-top:1px solid var(--line)}
+.head{display:grid;gap:10px;margin-bottom:32px}
+
+/* idea */
+.idea{display:grid;gap:32px;grid-template-columns:1fr}
+@media (min-width:820px){.idea{grid-template-columns:1.1fr .9fr;align-items:start}}
+.big-quote{font-family:var(--f-display);font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:600;line-height:1.2;text-wrap:balance}
+.big-quote em{font-style:normal;color:var(--accent)}
+.stack{display:grid;gap:14px}
+.def{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:grid;gap:8px}
+.def .word{font-family:var(--f-display);font-size:1.6rem;font-weight:800}
+.def .ipa{font-family:var(--f-mono);font-weight:600;font-size:.8rem;color:var(--muted)}
+
+/* rules */
+.rules{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.rule{display:grid;gap:6px;padding-top:14px;border-top:2px solid var(--brown)}
+.rule .no{font-family:var(--f-mono);font-weight:600;font-size:.75rem;color:var(--muted);text-decoration:line-through}
+
+/* audience */
+.aud{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.aud div{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:16px 0;border-bottom:1px dashed var(--line)}
+.aud b{font-family:var(--f-display);font-weight:600;grid-column:2}
+.aud span{grid-column:2;color:var(--muted);font-size:.95rem}
+.aud i{grid-row:1/3;font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:.75rem;color:var(--accent);padding-top:3px}
+
+/* table */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:.95rem}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-weight:600;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:0}
+td:first-child{font-family:var(--f-display);font-weight:600;white-space:nowrap}
+.tag{display:inline-block;font-family:var(--f-mono);font-weight:600;font-size:.7rem;padding:2px 8px;border-radius:99px;border:1px solid var(--accent);color:var(--accent);white-space:nowrap}
+.tag.core{background:var(--accent);color:var(--surface)}
+
+
+@media (max-width:700px){
+  .tbl{overflow:visible;border:0;background:none;border-radius:0}
+  .tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%;min-width:0}
+  .tbl thead{display:none}
+  .tbl tbody{display:grid;gap:12px}
+  .tbl tr{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;display:grid;gap:10px}
+  .tbl td{padding:0;border:0}
+  .tbl td:first-child{font-size:1.15rem;white-space:normal;padding-bottom:6px;border-bottom:1px dashed var(--line)}
+  .tbl td:not(:first-child)::before{content:attr(data-label);display:block;font-family:var(--f-mono);font-weight:600;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+}
+
+
+/* mobile + tablet: table rows become stacked cards */
+@media (max-width:1023px){
+  .tbl{overflow:visible;background:transparent;border:0;border-radius:0}
+  .tbl table{min-width:0}
+  .tbl thead{display:none}
+  .tbl tbody{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
+  .tbl tr{display:grid;gap:8px;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+  .tbl td{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:0;border:0;min-width:0}
+  .tbl td::before{content:attr(data-label);font-family:var(--f-mono);font-weight:600;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-top:4px}
+  .tbl td:first-child{display:block;font-size:1.2rem;white-space:normal;padding-bottom:6px;border-bottom:1px dashed var(--line)}
+  .tbl td:first-child::before{display:none}
+  .tbl td > .tag,.tbl td > .lens{justify-self:start;align-self:center}
+}
+
+/* plays */
+.plays{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.play{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:grid;gap:10px;align-content:start}
+.play h3{font-size:1.3rem}
+.play .how{font-size:.92rem;color:var(--muted)}
+.play .why{font-family:var(--f-mono);font-weight:600;font-size:.74rem;letter-spacing:.04em;color:var(--accent);border-top:1px dashed var(--line);padding-top:10px}
+
+/* timeline */
+.tl{display:grid;gap:0;position:relative}
+.month{display:grid;grid-template-columns:1fr;gap:14px;padding:28px 0 28px 34px;position:relative;border-left:2px solid var(--line);margin-left:9px}
+.month::before{content:"";position:absolute;left:-10px;top:32px;width:18px;height:18px;border-radius:50%;background:var(--glow);box-shadow:0 0 0 4px var(--bg),0 0 18px var(--glow)}
+@media (min-width:820px){.month{grid-template-columns:230px 1fr;gap:28px}}
+.month .when{display:grid;gap:4px;align-content:start}
+.month .when .n{font-family:var(--f-mono);font-weight:600;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.month .when h3{font-size:1.6rem;font-weight:800}
+.month .cols{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.month ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.95rem}
+.month h4{margin:0 0 6px;font-family:var(--f-mono);font-weight:600;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.milestone{font-family:var(--f-hand);font-size:1.4rem;color:var(--accent);line-height:1.2}
+.note{font-size:.9rem;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius);padding:14px 16px;max-width:none}
+
+/* week */
+.week{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr))}
+.day{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:4px;align-content:start;background:var(--surface)}
+.day .d{font-family:var(--f-mono);font-weight:600;font-size:.72rem;letter-spacing:.14em;color:var(--muted)}
+.day b{font-family:var(--f-display);font-weight:600;line-height:1.25}
+.day span{font-size:.85rem;color:var(--muted)}
+.day.hl{background:var(--brown);border-color:var(--brown);color:var(--ink-on-brown)}
+.day.hl .d,.day.hl span{color:var(--ink-on-brown);opacity:.75}
+
+/* pillars */
+.pillars{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));border-top:1px solid var(--line)}
+.pillar{padding:18px 18px 18px 0;display:grid;gap:6px;border-bottom:1px solid var(--line)}
+.pillar .pct{font-family:var(--f-display);font-size:2rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.pillar span{font-size:.9rem;color:var(--muted)}
+
+/* kpis */
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.kpi{display:grid;gap:4px;padding:18px;border-radius:var(--radius);border:1px solid var(--line)}
+.kpi .v{font-family:var(--f-display);font-size:2.2rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.kpi .l{font-weight:600}
+.kpi .h{font-size:.85rem;color:var(--muted)}
+
+
+/* content types */
+.vs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));margin-bottom:28px}
+.vs .opt{border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:grid;gap:8px;align-content:start}
+.vs .opt.pick{background:var(--brown);border-color:var(--brown);color:var(--ink-on-brown)}
+.vs .opt.pick .muted,.vs .opt.pick .eyebrow{color:var(--ink-on-brown);opacity:.8}
+.vs ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:.93rem}
+.lens{display:inline-block;font-family:var(--f-mono);font-weight:600;font-size:.7rem;padding:2px 8px;border-radius:99px;white-space:nowrap;border:1px solid var(--line);color:var(--muted)}
+.lens.place{border-color:var(--accent);color:var(--accent)}
+.lens.food{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+
+/* closing */
+.close{background:var(--brown);color:var(--ink-on-brown)}
+.close .wrap{padding-block:56px;display:grid;gap:24px}
+.close h2{color:var(--ink-on-brown)}
+.close ol{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}
+.close .hand{color:var(--glow)}
+.foot{font-family:var(--f-mono);font-weight:600;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;display:flex;flex-wrap:wrap;gap:8px 20px}
+.ml{font-family:var(--f-body);font-weight:600}
+</style>
+
+</head>
+<body style="margin:0">
+<header class="bar"><div class="wrap">
+  <span>Cache × Adoliy</span>
+  <nav aria-label="Sections">
+    <a href="#idea">Idea</a><a href="#scope">Digital scope</a><a href="#plays">Plays</a><a href="#sales">Sales</a><a href="#content">Content</a><a href="#roadmap">6 months</a>
+  </nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <svg class="lamps" viewBox="0 0 560 150" aria-hidden="true">
+    <defs><radialGradient id="g"><stop offset="0" stop-color="var(--glow)" stop-opacity=".55"/><stop offset="1" stop-color="var(--glow)" stop-opacity="0"/></radialGradient></defs>
+    <g>
+      <g class="lamp"><rect x="45" y="0" width="10" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><rect x="44" y="0" width="12" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><line x1="50" y1="0" x2="50" y2="70" stroke="var(--ink-on-brown)" stroke-opacity=".5"/><circle cx="50" cy="92" r="34" fill="url(#g)"/><path d="M36 70 h28 l8 18 h-44z" fill="var(--glow)"/></g>
+      <g class="lamp"><rect x="155" y="0" width="10" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><rect x="154" y="0" width="12" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><line x1="160" y1="0" x2="160" y2="40" stroke="var(--ink-on-brown)" stroke-opacity=".5"/><circle cx="160" cy="64" r="34" fill="url(#g)"/><ellipse cx="160" cy="52" rx="16" ry="13" fill="var(--glow)"/></g>
+      <g class="lamp"><rect x="275" y="0" width="10" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><rect x="274" y="0" width="12" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><line x1="280" y1="0" x2="280" y2="86" stroke="var(--ink-on-brown)" stroke-opacity=".5"/><circle cx="280" cy="108" r="38" fill="url(#g)"/><path d="M262 86 h36 l10 22 h-56z" fill="var(--glow)"/></g>
+      <g class="lamp"><rect x="395" y="0" width="10" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><rect x="394" y="0" width="12" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><line x1="400" y1="0" x2="400" y2="52" stroke="var(--ink-on-brown)" stroke-opacity=".5"/><circle cx="400" cy="76" r="34" fill="url(#g)"/><ellipse cx="400" cy="64" rx="16" ry="13" fill="var(--glow)"/></g>
+      <g class="lamp"><rect x="505" y="0" width="10" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><rect x="504" y="0" width="12" height="4" rx="1" fill="var(--ink-on-brown)" fill-opacity=".55"/><line x1="510" y1="0" x2="510" y2="30" stroke="var(--ink-on-brown)" stroke-opacity=".5"/><circle cx="510" cy="52" r="32" fill="url(#g)"/><path d="M497 30 h26 l7 16 h-40z" fill="var(--glow)"/></g>
+    </g>
+  </svg>
+  <div class="hand">Edappal · coming soon</div>
+  <h1>Cache</h1>
+  <p class="lede">Digital scope and a six-month plan to launch Cache as a community people belong to, and to turn that belonging into regular visits, bookings and steady sales.</p>
+  <div class="meta"><span>Prepared by Adoliy</span><span>17 Oct 2026</span><span>Plan window: Nov 2026 – Apr 2027</span></div>
+</div></div>
+<div class="straw" aria-hidden="true"></div>
+
+<main>
+<section id="idea"><div class="wrap">
+  <div class="idea">
+    <div class="stack">
+      <div class="eyebrow">The idea</div>
+      <p class="big-quote">Cache is where Edappal <em>keeps</em> its best moments.</p>
+      <p>A cache is a place where valuable things are stored. That is the brand. Every visit, every conversation and every thing someone makes here becomes part of what Cache keeps. Online, we share that record, so the brand grows as the community does.</p>
+      <p>Community is the strategy and sales are the result. People who feel they belong visit more often, bring friends, and choose Cache for their gatherings and celebrations.</p>
+    </div>
+    <div class="def">
+      <div class="word">cache</div>
+      <div class="ipa">/kaʃ/ · noun</div>
+      <p>A collection of things kept in a safe place, often hidden.</p>
+      <p class="muted" style="font-size:.92rem">Hashtag: <b>#KeptAtCache</b></p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head"><div class="eyebrow">Approach</div><h2>How Cache grows</h2></div>
+  <div class="rules">
+    <div class="rule"><h3>Shared experiences</h3><p class="muted">Events and moments people share because they took part.</p></div>
+    <div class="rule"><h3>Local collaborators</h3><p class="muted">Musicians, artists and readers who perform, teach and host here, and bring their own circles.</p></div>
+    <div class="rule"><h3>Belonging that sells</h3><p class="muted">Membership, regulars and private gatherings drive repeat visits and bookings.</p></div>
+    <div class="rule"><h3>A slow journal</h3><p class="muted">Content that looks like the place: unhurried, natural light, real sound.</p></div>
+  </div></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head"><div class="eyebrow">Who Cache is for</div><h2>Six circles to build</h2></div>
+  <div class="aud">
+    <div><i>01</i><b>Students and young creatives</b><span>Nearby colleges. Want a place to sit long, make things and be seen.</span></div>
+    <div><i>02</i><b>Families</b><span>The majlis zone. Evening outings, small gatherings, birthdays.</span></div>
+    <div><i>03</i><b>Readers and quiet workers</b><span>The library corner on weekday afternoons.</span></div>
+    <div><i>04</i><b>Artists and hobby makers</b><span>Clay, painting, music. Need a stage and an audience.</span></div>
+    <div><i>05</i><b>Gulf families home on holiday</b><span>Peak in December and around Eid. Big groups, high spend.</span></div>
+    <div><i>06</i><b>Clubs and collectives</b><span>Book clubs, photography groups, alumni batches looking for a venue.</span></div>
+  </div>
+</div></section>
+
+<section id="scope"><div class="wrap">
+  <div class="head"><div class="eyebrow">Digital scope</div><h2>The channels, and the one job each does</h2>
+  <p class="muted">Six channels. Instagram, Facebook and YouTube show it, WhatsApp fills seats and takes bookings, Google gets it found.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Channel</th><th>Job</th><th>What goes there</th><th>Rhythm</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td data-label="Channel">Instagram</td><td data-label="Job">The visual journal</td><td data-label="What goes there">Build series, pond diary, maker stories, event recaps, weekly “What’s on” card</td><td data-label="Rhythm">4 posts / week, daily stories</td><td data-label="Priority"><span class="tag core">Core</span></td></tr>
+      <tr><td data-label="Channel">Facebook</td><td data-label="Job">Reach families and the Gulf diaspora</td><td data-label="What goes there">Events, family offers, recap albums, posts in local and NRI community groups</td><td data-label="Rhythm">3 posts / week, events listed</td><td data-label="Priority"><span class="tag core">Core</span></td></tr>
+      <tr><td data-label="Channel">YouTube</td><td data-label="Job">The long story</td><td data-label="What goes there">Full build series episodes, event recap films, Shorts from the week</td><td data-label="Rhythm">2 Shorts / week, 1 film / month</td><td data-label="Priority"><span class="tag core">Core</span></td></tr>
+      <tr><td data-label="Channel">WhatsApp Channel</td><td data-label="Job">Fill the calendar</td><td data-label="What goes there">Weekly programme, RSVPs, lotus-bloom alerts, last-minute seats</td><td data-label="Rhythm">2–3 updates / week</td><td data-label="Priority"><span class="tag core">Core</span></td></tr>
+      <tr><td data-label="Channel">WhatsApp Business</td><td data-label="Job">Take bookings</td><td data-label="What goes there">Table and majlis reservations, private gatherings, workshop sign-ups, quick replies and catalogue</td><td data-label="Rhythm">Daily</td><td data-label="Priority"><span class="tag core">Core</span></td></tr>
+      <tr><td data-label="Channel">Google Business Profile</td><td data-label="Job">Get found on Maps</td><td data-label="What goes there">Photos by zone, menu, events as posts, replies to every review</td><td data-label="Rhythm">Weekly post, daily review replies</td><td data-label="Priority"><span class="tag core">Core</span></td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section id="plays"><div class="wrap">
+  <div class="head"><div class="eyebrow">Signature plays</div><h2>Eight ideas built for Cache</h2>
+  <p class="muted">Each one starts offline and turns into content. That is the engine.</p></div>
+  <div class="plays">
+    <article class="play"><div class="eyebrow">Pre-opening</div><h3>The First Hundred</h3>
+      <p class="how">Cache has 100+ seats. Invite 100 founding members by application. Each gets their name on a brass tag on one seat, an invite to the soft launch, and first invites to everything on WhatsApp.</p>
+      <p class="why">Creates 100 ambassadors before day one</p></article>
+    <article class="play"><div class="eyebrow">Pre-opening</div><h3>Before Anyone Else</h3>
+      <p class="how">In the final weeks of the build, small groups of 10–12 are invited for a preview walk and a first cup: shop owners, teachers, college reps, artists and community elders. They see it first and talk about it first.</p>
+      <p class="why">Builds the local network and word of mouth before opening</p></article>
+    <article class="play"><div class="eyebrow">Pre-opening</div><h3>Under the Straw Roof</h3>
+      <p class="how">A six-part short video series on the build: bamboo workers, jute weaving, the straw roof, planting the lotus, the swans arriving, the pendant lights switching on.</p>
+      <p class="why">People wait for an opening they watched being built</p></article>
+    <article class="play"><div class="eyebrow">Pre-opening</div><h3>Fill the Shelves</h3>
+      <p class="how">A book drive for the library. Every donated book gets a bookplate with the donor’s name. Goal: 500 books by opening. Each card inside has space for readers to leave a line.</p>
+      <p class="why">Owners of the library come back to see their books</p></article>
+    <article class="play"><div class="eyebrow">Monthly</div><h3>The Long Table</h3>
+      <p class="how">Once a month, one long table, 30 seats, a set menu. Guests from different fields are seated together: founders, teachers, students, artists, returning NRIs. Paid booking, limited seats.</p>
+      <p class="why">Turns Cache into Edappal’s networking table, and sells out</p></article>
+    <article class="play"><div class="eyebrow">Every full moon</div><h3>Moon Nights</h3>
+      <p class="how">The pond lit only by the moon and the pendant lights. Ghazals, poetry or silence. Seats by RSVP on WhatsApp. A fixed date people mark without being told.</p>
+      <p class="why">A ritual tied to the place’s best feature</p></article>
+    <article class="play"><div class="eyebrow">Ongoing</div><h3>The Keeper’s Card</h3>
+      <p class="how">A hand-stamped card for regulars. After ten visits, your own mug is kept on the Cache shelf with your name. Card holders get first seats at Long Tables and members-only evenings.</p>
+      <p class="why">Rewards return visits with belonging, not discounts</p></article>
+    <article class="play"><div class="eyebrow">From month 3</div><h3>Host a Night</h3>
+      <p class="how">Members propose an evening: chess, Mappila songs, a photo walk, a reading. Cache gives space and promotion. The walls rotate work made in Cache workshops, labelled “Made at Cache”.</p>
+      <p class="why">The community programmes itself</p></article>
+  </div>
+</div></section>
+
+<section id="sales"><div class="wrap">
+  <div class="head"><div class="eyebrow">Community into sales</div><h2>Where the revenue comes from</h2>
+  <p class="muted">Community comes first, and every part of it is designed to lead to a visit, a booking or a purchase.</p></div>
+  <div class="plays">
+    <article class="play"><div class="eyebrow">Daily</div><h3>Food and drinks</h3><p class="how">Regulars and walk-ins. The Keeper’s Card, the weekly rhythm and the content keep people coming back more often.</p><p class="why">Fed by: Keeper’s Card, weekly rhythm</p></article>
+    <article class="play"><div class="eyebrow">High value</div><h3>Private gatherings</h3><p class="how">Majlis bookings for families, birthdays, small functions, alumni batches and team outings, taken on WhatsApp Business.</p><p class="why">Fed by: Homecoming Tables, Facebook groups</p></article>
+    <article class="play"><div class="eyebrow">Weekly</div><h3>Paid workshops</h3><p class="how">Clay, painting and kids’ sessions at 15 seats each, with food and drinks bundled into the ticket.</p><p class="why">Fed by: Makers’ table, maker content</p></article>
+    <article class="play"><div class="eyebrow">Monthly</div><h3>Long Table dinners</h3><p class="how">A set-menu dinner with limited seats. Sells out ahead, and every guest brings new people next time.</p><p class="why">Fed by: The Long Table, First Hundred</p></article>
+    <article class="play"><div class="eyebrow">Seasonal</div><h3>Festive menus</h3><p class="how">Iftar packages, suhoor late nights, Eid and year-end gatherings, priced for groups.</p><p class="why">Fed by: Majlis nights, Moon Nights</p></article>
+    <article class="play"><div class="eyebrow">Quarterly</div><h3>Makers’ sales</h3><p class="how">Artwork from workshops and members sold on the walls and at the Season One market, with Cache taking a share.</p><p class="why">Fed by: Made at Cache, Host a Night</p></article>
+  </div>
+</div></section>
+
+<section id="content"><div class="wrap">
+  <div class="head"><div class="eyebrow">Content direction</div><h2>Place first, food in its place</h2>
+  <p class="muted">Cache brings a London and US café culture to Edappal: a third place where people read, meet, make things and stay. That culture lives in the space and the people, not on the plate. Food-first content shrinks Cache to a menu. Place-first content shows the whole culture, so it leads. Food still matters for sales, so it always appears inside the space, with people around it.</p></div>
+  <div class="vs">
+    <div class="opt"><div class="eyebrow">Food-first</div><h3>Looks like any café</h3><ul><li>Flat lays and latte art on plain tables</li><li>Easy to copy, hard to remember</li><li>Competes on menu and price</li><li>Shows the menu, misses the culture</li></ul></div>
+    <div class="opt pick"><div class="eyebrow">Recommended · Place-first</div><h3>Looks like only Cache</h3><ul><li>The space and people lead every frame</li><li>Food shown where it is eaten: majlis, pondside, under the lights</li><li>Competes on experience, holds a premium price</li><li>Fully London and US café culture: slow mornings, shared tables, books, art and live sets</li></ul></div>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Content type</th><th>What it shows</th><th>Lens</th><th>Where</th><th>Rhythm</th></tr></thead>
+    <tbody>
+      <tr><td data-label="Content type">Pond Diary</td><td data-label="What it shows">Slow ambient clips: lotus opening, swans, water, birdsong. No music, real sound</td><td data-label="Lens"><span class="lens place">Place</span></td><td data-label="Where">Reels, Shorts, FB</td><td data-label="Rhythm">Weekly</td></tr>
+      <tr><td data-label="Content type">One Frame, All Day</td><td data-label="What it shows">The same corner filmed at dawn, noon, dusk and night under the pendant lights</td><td data-label="Lens"><span class="lens place">Place</span></td><td data-label="Where">Reels, Shorts</td><td data-label="Rhythm">Monthly</td></tr>
+      <tr><td data-label="Content type">Under the Straw Roof</td><td data-label="What it shows">The build story: craftspeople, materials, first lights</td><td data-label="Lens"><span class="lens place">Place</span></td><td data-label="Where">YouTube, Reels</td><td data-label="Rhythm">Pre-opening series</td></tr>
+      <tr><td data-label="Content type">Seat Stories</td><td data-label="What it shows">A First Hundred member on their named seat, 30 seconds on why they joined</td><td data-label="Lens"><span class="lens">People</span></td><td data-label="Where">Reels, FB</td><td data-label="Rhythm">Weekly</td></tr>
+      <tr><td data-label="Content type">Hands at Work</td><td data-label="What it shows">Clay, paint and process close-ups from workshops, ending with the finished piece</td><td data-label="Lens"><span class="lens">People</span></td><td data-label="Where">Reels, Shorts</td><td data-label="Rhythm">Weekly</td></tr>
+      <tr><td data-label="Content type">Dish in its Place</td><td data-label="What it shows">A signature dish or drink served in a real zone: platter in the majlis, tea by the pond, never a plain background</td><td data-label="Lens"><span class="lens food">Food</span></td><td data-label="Where">Posts, Reels, FB</td><td data-label="Rhythm">2 / week</td></tr>
+      <tr><td data-label="Content type">The Kitchen Hour</td><td data-label="What it shows">How one item is made, by the people who make it, with every ingredient named</td><td data-label="Lens"><span class="lens food">Food</span></td><td data-label="Where">Reels, YouTube</td><td data-label="Rhythm">Fortnightly</td></tr>
+      <tr><td data-label="Content type">Majlis Moments</td><td data-label="What it shows">Real family gatherings and celebrations, with permission, ending with how to book</td><td data-label="Lens"><span class="lens food">Food</span></td><td data-label="Where">FB, Reels, WhatsApp</td><td data-label="Rhythm">Weekly</td></tr>
+      <tr><td data-label="Content type">What’s On</td><td data-label="What it shows">The week’s programme as one card, with an RSVP line</td><td data-label="Lens"><span class="lens">Calendar</span></td><td data-label="Where">Posts, Stories, WhatsApp, FB</td><td data-label="Rhythm">Every Monday</td></tr>
+      <tr><td data-label="Content type">Recap Film</td><td data-label="What it shows">60–90 seconds from each event, plus a monthly longer cut</td><td data-label="Lens"><span class="lens">People</span></td><td data-label="Where">Reels, YouTube</td><td data-label="Rhythm">After each event</td></tr>
+      <tr><td data-label="Content type">Guest Frames</td><td data-label="What it shows">Photos and clips guests post, reshared with credit</td><td data-label="Lens"><span class="lens">People</span></td><td data-label="Where">Stories, FB</td><td data-label="Rhythm">Daily</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted" style="margin-top:18px">Food rule: if a food shot could have been taken in any café, reshoot it at Cache, in the space, with someone about to eat it.</p>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+  <div class="head"><div class="eyebrow">Six months</div><h2>From hidden to habit</h2></div>
+  <p class="note">Assumes doors open in early December 2026. If the opening date moves, shift every month by the same amount. Ramadan and Eid dates are approximate and depend on the moon sighting.</p>
+  <div class="tl">
+    <div class="month"><div class="when"><span class="n">Month 1 · Nov 2026</span><h3>Before the doors</h3><p class="milestone">100 names, 500 books</p></div>
+      <div class="cols">
+        <div><h4>On the ground</h4><ul><li>First Hundred applications open</li><li>Fill the Shelves book drive</li><li>Before Anyone Else preview walks, weeks 3–4</li></ul></div>
+        <div><h4>Online</h4><ul><li>Set up Instagram, Facebook, YouTube, WhatsApp and Google profile</li><li>Under the Straw Roof, episodes 1–4</li><li>Daily countdown stories</li></ul></div>
+        <div><h4>Sales</h4><ul><li>Pre-book opening-week tables and majlis on WhatsApp</li><li>Take December family gathering enquiries</li></ul></div>
+      </div></div>
+    <div class="month"><div class="when"><span class="n">Month 2 · Dec 2026</span><h3>First light</h3><p class="milestone">Open, and full by word of mouth</p></div>
+      <div class="cols">
+        <div><h4>On the ground</h4><ul><li>Two private evenings for the First Hundred</li><li>Public opening with first lights by the pond</li><li>Homecoming Tables: majlis bookings for Gulf families</li><li>First Moon Night</li><li>Year-end evening by the pond</li></ul></div>
+        <div><h4>Online</h4><ul><li>Episodes 5–6 of the build series</li><li>Opening night recap film</li><li>Google review cards at every table</li></ul></div>
+        <div><h4>Sales</h4><ul><li>Homecoming Tables for Gulf families</li><li>Year-end group and family bookings</li><li>Opening signature menu</li></ul></div>
+      </div></div>
+    <div class="month"><div class="when"><span class="n">Month 3 · Jan 2027</span><h3>Rituals</h3><p class="milestone">A weekly rhythm people know by heart</p></div>
+      <div class="cols">
+        <div><h4>On the ground</h4><ul><li>Fixed weekly programme starts (see below)</li><li>First clay and painting workshops</li><li>Host a Night opens to members</li><li>First Long Table</li></ul></div>
+        <div><h4>Online</h4><ul><li>Keeper’s Card launches</li><li>Pond diary: a weekly short on the pond</li></ul></div>
+        <div><h4>Sales</h4><ul><li>Paid weekly workshops</li><li>First paid Long Table</li><li>Weekday reading-hour coffee and snack combos</li></ul></div>
+      </div></div>
+    <div class="month"><div class="when"><span class="n">Month 4 · Feb 2027</span><h3>Majlis nights</h3><p class="milestone">Own the Ramadan evenings</p></div>
+      <div class="cols">
+        <div><h4>On the ground</h4><ul><li>Ramadan from about 8 Feb: iftar tables in the majlis, late hours, suhoor service</li><li>Quiet reading circle after taraweeh</li><li>Group bookings for families and alumni batches</li></ul></div>
+        <div><h4>Online</h4><ul><li>Night-time content series: the pond after dark</li><li>WhatsApp table booking for iftar groups</li><li>Long Table: iftar edition</li></ul></div>
+        <div><h4>Sales</h4><ul><li>Iftar group packages</li><li>Late-night suhoor menu</li><li>Ramadan family and alumni bookings</li></ul></div>
+      </div></div>
+    <div class="month"><div class="when"><span class="n">Month 5 · Mar 2027</span><h3>Made at Cache</h3><p class="milestone">The community’s work on the walls</p></div>
+      <div class="cols">
+        <div><h4>On the ground</h4><ul><li>Eid evenings for families (around 10 Mar)</li><li>First “Made at Cache” show: clay and paintings from workshops</li><li>Exam-season quiet hours for students</li></ul></div>
+        <div><h4>Online</h4><ul><li>Maker portraits: one member’s piece and story per week</li><li>Long Table recap and next-date booking</li><li>Recap of the first ten member-hosted nights</li></ul></div>
+        <div><h4>Sales</h4><ul><li>Eid gathering and celebration bookings</li><li>Artwork sales at the Made at Cache show</li></ul></div>
+      </div></div>
+    <div class="month"><div class="when"><span class="n">Month 6 · Apr 2027</span><h3>Season One</h3><p class="milestone">Close the season, open the next</p></div>
+      <div class="cols">
+        <div><h4>On the ground</h4><ul><li>Season One weekend: music, makers’ market, library swap</li><li>First mugs go up on the Keeper’s shelf</li><li>Second intake of founding members</li></ul></div>
+        <div><h4>Online</h4><ul><li>Season One zine: a printed record of six months</li><li>Season One recap film</li><li>Results review and Season Two plan</li></ul></div>
+        <div><h4>Sales</h4><ul><li>Makers’ market stall fees and sales</li><li>Birthday and private event packages for summer holidays</li></ul></div>
+      </div></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head"><div class="eyebrow">From month 3</div><h2>The weekly rhythm</h2>
+  <p class="muted">A fixed programme turns one-off visitors into regulars. Swap themes as the community suggests new ones.</p></div>
+  <div class="week">
+    <div class="day"><span class="d">MON</span><b>Library evening</b><span>Book swap, silent reading</span></div>
+    <div class="day"><span class="d">TUE</span><b>Makers’ table</b><span>Open clay and sketch hour</span></div>
+    <div class="day"><span class="d">WED</span><b>Workshop</b><span>Paid, 15 seats</span></div>
+    <div class="day"><span class="d">THU</span><b>Host a Night</b><span>Run by a member</span></div>
+    <div class="day hl"><span class="d">FRI</span><b>Pondside unplugged</b><span>Light music, open stage</span></div>
+    <div class="day"><span class="d">SAT</span><b>Kids’ clay morning</b><span>Families, majlis lunch</span></div>
+    <div class="day"><span class="d">SUN</span><b>Slow Sunday</b><span>Lotus breakfast, long tables</span></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head"><div class="eyebrow">Content pillars</div><h2>What the feed is made of</h2></div>
+  <div class="pillars">
+    <div class="pillar"><span class="pct">25%</span><h3>The Pond</h3><span>Swans, lotus, fish, light at different hours</span></div>
+    <div class="pillar"><span class="pct">25%</span><h3>The People</h3><span>Members, hosts, regulars, the staff</span></div>
+    <div class="pillar"><span class="pct">15%</span><h3>The Makers</h3><span>Artists, musicians, workshop results</span></div>
+    <div class="pillar"><span class="pct">15%</span><h3>The Calendar</h3><span>What’s on, RSVPs, recaps</span></div>
+    <div class="pillar"><span class="pct">20%</span><h3>The Table</h3><span>Signature menu, seasonal dishes, bookings</span></div>
+  </div>
+  <p class="muted" style="margin-top:18px">Community content leads, and every post ends with a reason to visit or book: a date, a dish or a seat.</p>
+</div></section>
+
+
+</main>
+
+<div class="straw" aria-hidden="true"></div>
+<footer class="close"><div class="wrap">
+  <div class="hand">Next</div>
+  <h2>What we need from Cache to start</h2>
+  <ol>
+    <li>Confirmed opening date, so the timeline can be locked</li>
+    <li>Access to the site to film the build series this month</li>
+    <li>Final menu, opening hours and seating plan by zone</li>
+    <li>Approval for the First Hundred brass seat tags and the hunt pouches</li>
+    <li>A shortlist of local musicians and artists the owners already know</li>
+  </ol>
+  <div class="foot"><span>Adoliy · make@adoliy.in</span><span>+91 89211 86858</span><span>www.adoliy.in</span></div>
+</div></footer>
+
+</body>
+</html>
