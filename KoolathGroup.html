@@ -221,7 +221,8 @@ em.s{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-
 @media(max-width:640px){.trow{grid-template-columns:1fr auto;padding:16px 18px}.trow .m{grid-column:1/-1;grid-row:2;font-size:.88rem;margin-top:-10px}.trow:first-child .m{display:none}}
 
 /* timeline */
-.tl{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}
+.tl{display:grid;grid-template-columns:repeat(7,1fr);padding-bottom:10px}
+
 .tl div{scroll-snap-align:start;position:relative;padding:34px 18px 0 0}
 .tl div::before{content:"";position:absolute;top:9px;left:0;right:0;height:1px;background:var(--ink)}
 .tl div::after{content:"";position:absolute;top:4px;left:0;width:11px;height:11px;border-radius:50%;background:var(--ink)}
@@ -232,6 +233,15 @@ em.s{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-
 .tl .nx .y{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.75rem}
 .tl p{font-size:.88rem;color:var(--mute);line-height:1.45;margin-top:4px}
 .tl p b{display:block;color:var(--ink);font-weight:500;font-size:.95rem}
+@media(max-width:1000px){
+  .tl{grid-template-columns:1fr;gap:0;padding-left:4px}
+  .tl div{padding:0 0 26px 30px}
+  .tl div::before{top:14px;bottom:-14px;left:5px;right:auto;width:1px;height:auto}
+  .tl div:last-child::before{display:none}
+  .tl div::after{top:12px;left:0}
+  .tl div.nx::before{background:none}
+  .tl p{margin-top:2px}
+}
 
 /* cart compare */
 .cmpwrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;align-items:start}
@@ -294,8 +304,11 @@ em.s{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-
 .svc li{font-size:.93rem;color:var(--mute);padding-left:18px;position:relative}
 .svc li::before{content:"";position:absolute;left:0;top:.68em;width:8px;height:1px;background:var(--ink)}
 .svc li b{color:var(--ink);font-weight:500}
-.svc.wide{grid-column:span 2}
-@media(max-width:640px){.svc.wide{grid-column:auto}}
+.svc.full{grid-column:1/-1}
+.svc ul.cols{grid-template-columns:repeat(3,1fr);column-gap:28px}
+@media(max-width:1000px){.svc ul.cols{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.svc ul.cols{grid-template-columns:1fr}}
+
 
 /* launch */
 .phases{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -471,7 +484,7 @@ footer img{height:24px;width:auto}
       <div class="trow" role="row"><b>Subani apps</b><span class="m">4 apps: 2 for customers, 2 for staff</span><span class="s half"><i></i>Live</span></div>
       <div class="trow" role="row"><b>Instagram</b><span class="m">1 active profile (the supermarket), 440 followers</span><span class="s half"><i></i>Small</span></div>
       <div class="trow" role="row"><b>Map listings</b><span class="m">Supermarket, mill and Iftar are listed</span><span class="s on"><i></i>Found</span></div>
-      <div class="trow" role="row"><b>Brand pages</b><span class="m">Koolath Group, Ricy, Iftar, Freshee</span><span class="s"><i></i>None</span></div>
+      <div class="trow" role="row"><b>Brand pages</b><span class="m">Koolath Group, Ricy, Iftar</span><span class="s"><i></i>None</span></div>
     </div>
   </div>
 </section>
@@ -481,17 +494,17 @@ footer img{height:24px;width:auto}
   <div class="wrap">
     <div class="head rv">
       <span class="slug">/story</span>
-      <h2>Five decades of trust. The next chapter opens in <em class="s">December.</em></h2>
+      <h2>Five decades of trust. The next chapter is <em class="s">digital.</em></h2>
       <p>This story is your strongest marketing asset. Right now it isn't told anywhere online.</p>
     </div>
-    <div class="tl rv" tabindex="0" aria-label="Koolath timeline, scrollable">
+    <div class="tl rv" tabindex="0" aria-label="Koolath timeline">
       <div><span class="y">1972</span><p><b>Flour mill</b>Started in Perunthallur</p></div>
       <div><span class="y">2002</span><p><b>Koolath Traders</b>The group's formal start</p></div>
       <div><span class="y">2015</span><p><b>Koolath Supermarket</b>Plus Koolath Milling Company</p></div>
       <div><span class="y">2016</span><p><b>Iftar Food Industries</b>Wholesale and distribution</p></div>
-      <div><span class="y">2017</span><p><b>Koolath Enterprises</b>Freshee paper products</p></div>
+      <div><span class="y">2017</span><p><b>Koolath Enterprises</b>Paper products</p></div>
       <div><span class="y">2024</span><p><b>Subani apps</b>Wholesale and retail go digital</p></div>
-      <div class="nx"><span class="y">Dec 2026</span><p><b>Thoovakkad + Millmart</b>Second outlet and 30-minute E-mill</p></div>
+      <div class="nx"><span class="y">Next</span><p><b>Koolath Group online</b>One brand, told across every channel</p></div>
     </div>
   </div>
 </section>
@@ -553,7 +566,7 @@ footer img{height:24px;width:auto}
       <div class="app sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><div class="top"><span class="ic l"><svg><use href="#i-phone"/></svg></span><div><h3>Subani Salesman</h3><span class="w">For the sales team</span></div></div><dl><dt>Downloads</dt><dd>10+</dd><dt>Type</dt><dd>Internal</dd></dl></div>
       <div class="app sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><div class="top"><span class="ic l"><svg><use href="#i-scooter"/></svg></span><div><h3>Subani Delivery</h3><span class="w">For delivery staff</span></div></div><dl><dt>Downloads</dt><dd>10+</dd><dt>Type</dt><dd>Internal</dd></dl></div>
     </div>
-    <div class="note rv"><svg><use href="#i-info"/></svg><p><b>What to fix in the store listings:</b> all four apps appear under the developer's name (DCSS GLOBAL), not Subani. Both customer apps use the same generic grocery description and never mention Chamravattom, 30-minute delivery or the wallet. Neither shows any ratings yet.</p></div>
+    <div class="note rv"><svg><use href="#i-info"/></svg><p><b>Our suggestion: publish the apps under Koolath Group.</b> All four apps currently appear under the developer's name, DCSS GLOBAL. Moving them to a Koolath Group developer account puts your own name on every listing. Both customer apps also use the same generic grocery description, and neither shows any ratings yet.</p></div>
   </div>
 </section>
 
@@ -566,8 +579,8 @@ footer img{height:24px;width:auto}
     </div>
     <div class="grid g3">
       <article class="card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="st half"><i></i>Active · small</span><h3>Instagram</h3><p class="u">@subanikoolathsuper</p><ul><li><b>52 posts, 440 followers</b>, following 1,291 accounts.</li><li>The bio shows only the address, with no link, app download, WhatsApp or opening hours.</li><li>Recent posts are mostly shelf photos of other brands' products.</li></ul></article>
-      <article class="card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="st"><i></i>Not found</span><h3>Brand profiles</h3><ul><li>No Instagram, Facebook, LinkedIn or YouTube profile found for <b>Koolath Group</b>.</li><li>No pages for <b>Ricy</b>, <b>Iftar</b> or <b>Freshee</b>. These products appear online only as cards on subani.in.</li></ul></article>
-      <article class="card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="st half"><i></i>Partly in place</span><h3>Maps, directories and search</h3><ul><li><b>Map listings exist</b> for Subani Koolath Supermarket, Iftar Food Industries and Koolath Milling Company.</li><li>No listing found for <b>Koolath Enterprises (Freshee)</b>.</li><li>Justdial lists Iftar Food Industries under "Maize Cattle Feed", and addresses are written differently from site to site.</li><li>Plain searches for "Koolath" or "Subani" show unrelated businesses first.</li></ul></article>
+      <article class="card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="st"><i></i>Not found</span><h3>Brand profiles</h3><ul><li>No Instagram, Facebook, LinkedIn or YouTube profile found for <b>Koolath Group</b>.</li><li>No pages for <b>Ricy</b> or <b>Iftar</b>. These products appear online only as cards on subani.in.</li></ul></article>
+      <article class="card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="st half"><i></i>Partly in place</span><h3>Maps, directories and search</h3><ul><li><b>Map listings exist</b> for Subani Koolath Supermarket, Iftar Food Industries and Koolath Milling Company.</li><li>Justdial lists Iftar Food Industries under "Maize Cattle Feed", and addresses are written differently from site to site.</li><li>Plain searches for "Koolath" or "Subani" show unrelated businesses first.</li></ul></article>
     </div>
   </div>
 </section>
@@ -580,11 +593,10 @@ footer img{height:24px;width:auto}
       <h2>Your plans are moving fast. Your online presence should <em class="s">keep up.</em></h2>
       <p>What's ahead for the group, and what customers can find about it online today.</p>
     </div>
-    <div class="grid g2">
-      <div class="nx-card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="w">December 2026</span><h3>Second outlet at Thoovakkad</h3><p>A 6,000 sq ft supermarket and mill. It's the group's second location, after Chamravattom.</p><p class="now">Online today: <em>no announcement, page or map listing yet.</em></p></div>
+    <div class="grid g3">
       <div class="nx-card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="w">December 2026</span><h3>Subani Millmart (E-mill)</h3><p>Customers order through the app and their grain is milled within 30 minutes.</p><p class="now">Online today: <em>not mentioned anywhere.</em></p></div>
       <div class="nx-card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="w">Live now</span><h3>30-minute delivery within 5 km</h3><p>Quick delivery through the Subani app, with a wallet for easy payment.</p><p class="now">Online today: <em>not mentioned in the app listing or on Instagram.</em></p></div>
-      <div class="nx-card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="w">Kerala + Tamil Nadu</span><h3>Freshee and the wholesale network</h3><p>Freshee sells across Kerala and in Pollachi, Dindigul and Salem. The wholesale app serves around 500 outlets.</p><p class="now">Online today: <em>no Freshee presence, and no reviews from retailers.</em></p></div>
+      <div class="nx-card sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="w">Live now</span><h3>Subani Wholesale network</h3><p>The wholesale app serves around 500 retail outlets across the region.</p><p class="now">Online today: <em>no reviews from retailers and no retailer-facing page.</em></p></div>
     </div>
   </div>
 </section>
@@ -598,14 +610,13 @@ footer img{height:24px;width:auto}
       <p>We work as your business partner, not a vendor. Strategy, content, ads, websites and print are all planned together and reported every month.</p>
     </div>
     <div class="grid g3">
-      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-target"/></svg></span><h3>Brand strategy</h3><ul><li><b>One brand map</b> showing how Koolath Group, Subani, Ricy, Iftar and Freshee fit together.</li><li><b>Your story</b>, from the 1972 mill through three generations, told across every channel.</li><li>A campaign calendar and a monthly report.</li></ul></article>
+      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-target"/></svg></span><h3>Brand strategy</h3><ul><li><b>One brand map</b> showing how Koolath Group, Subani, Ricy and Iftar fit together.</li><li><b>Your story</b>, from the 1972 mill through three generations, told across every channel.</li><li>A campaign calendar and a monthly report.</li></ul></article>
       <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-web"/></svg></span><h3>Website and SEO</h3><ul><li><b>Live koolathgroup.com</b> with the story, companies, leadership and contact.</li><li><b>Fix subani.in</b>: product count, pack sizes, page titles, share previews, social and app links.</li><li>Google Analytics and Meta Pixel on both sites.</li></ul></article>
-      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-pin"/></svg></span><h3>Google Business and listings</h3><ul><li><b>Google Business Profiles</b> for the supermarket, mill, Iftar, Koolath Enterprises and Thoovakkad.</li><li>The same name, address, category and hours on Google, Justdial and IndiaMART.</li><li>Ongoing review collection and replies.</li></ul></article>
-      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-phone"/></svg></span><h3>App growth</h3><ul><li><b>Rewritten store listings</b> with separate copy for retail and wholesale, real screenshots and Subani contact details.</li><li>A <b>review drive</b> with existing retailers and shoppers.</li><li>How-to videos for ordering, the wallet and Millmart.</li></ul></article>
+      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-pin"/></svg></span><h3>Google Business and listings</h3><ul><li><b>Google Business Profiles</b> for the supermarket, the mill and Iftar Food Industries.</li><li>The same name, address, category and hours on Google, Justdial and IndiaMART.</li><li>Ongoing review collection and replies.</li></ul></article>
       <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-insta"/></svg></span><h3>Social media management</h3><ul><li>An Instagram profile refresh: bio, highlights and an app link.</li><li>New profiles for <b>Koolath Group</b> and one food-brand page for Ricy and Iftar.</li><li>Mill process videos, recipe reels, staff stories and weekly offers.</li></ul></article>
-      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-mega"/></svg></span><h3>Meta Ads and lead generation</h3><ul><li><b>App install ads</b> within the 5 km delivery zone around Chamravattom and Thoovakkad.</li><li><b>Retailer lead ads</b> for Subani Wholesale, with WhatsApp follow-up.</li><li><b>Freshee B2B campaigns</b> for hotels, caterers and bakeries in Kerala and Tamil Nadu.</li></ul></article>
-      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-cam"/></svg></span><h3>Video and photography</h3><ul><li><b>Product shoots</b> for the Ricy, Iftar and Freshee range.</li><li>Mill walkthroughs, the E-mill process and store tours.</li><li>Presenter-led reels shot in our own studio.</li></ul></article>
-      <article class="svc wide sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-board"/></svg></span><h3>Outdoor, print and in-store</h3><ul><li><b>Thoovakkad launch:</b> hoardings, flex banners, flyers and standees.</li><li><b>In-store app push:</b> QR standees, carry-bag stickers, delivery inserts and billing-counter displays.</li><li><b>Retailer brochures and catalogues</b> for the sales team, plus branded stationery.</li></ul></article>
+      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-mega"/></svg></span><h3>Meta Ads and lead generation</h3><ul><li><b>Local awareness and offer ads</b> within 5 km of Subani Koolath Supermarket, Chamravattom.</li><li><b>Retailer lead ads</b> for Subani Wholesale, with WhatsApp follow-up.</li><li><b>Retargeting</b> people who visit the website or engage with your posts.</li></ul></article>
+      <article class="svc sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-cam"/></svg></span><h3>Video and photography</h3><ul><li><b>Product shoots</b> for the Ricy and Iftar range.</li><li>Mill walkthroughs, the E-mill process and store tours.</li><li>Presenter-led reels shot in our own studio.</li></ul></article>
+      <article class="svc full sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="si"><svg><use href="#i-board"/></svg></span><h3>Outdoor marketing and printing</h3><ul class="cols"><li><b>Hoardings and billboards</b> on the main roads around Chamravattom and Tirur.</li><li><b>LED screen ads</b> at busy junctions and public spots.</li><li><b>Flyer services:</b> design, printing and door-to-door distribution.</li><li><b>Printing services:</b> brochures, catalogues, flex banners, standees and stationery.</li><li><b>In-store:</b> QR standees, carry-bag stickers and billing-counter displays.</li><li><b>Retailer kits:</b> catalogues and shelf materials for the sales team.</li></ul></article>
     </div>
   </div>
 </section>
@@ -615,13 +626,13 @@ footer img{height:24px;width:auto}
   <div class="wrap">
     <div class="head rv">
       <span class="slug">/first-campaign</span>
-      <h2>Thoovakkad + Millmart, run as <em class="s">one launch.</em></h2>
-      <p>Two launches in the same month. We'd run them as a single push that brings people to the new store and into the app.</p>
+      <h2>"Fresh from our mill, since 1972." <em class="s">Koolath Group goes online.</em></h2>
+      <p>One campaign that introduces the group, its story and its own brands, and brings people from Chamravattom and around into Subani Koolath Supermarket.</p>
     </div>
     <div class="phases">
-      <div class="ph sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="n">Phase 01</span><h3>Tease</h3><p class="t">2 weeks before opening</p><ul><li><svg><use href="#i-check"/></svg>Countdown reels and stories</li><li><svg><use href="#i-check"/></svg>"Your grain, milled in 30 minutes" teaser video</li><li><svg><use href="#i-check"/></svg>Hoardings and flyers around Thoovakkad</li><li><svg><use href="#i-check"/></svg>New Google Business Profile for the outlet</li></ul></div>
-      <div class="ph dk sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="n">Phase 02</span><h3><em>Open</em></h3><p class="t">Launch week</p><ul><li><svg><use href="#i-check"/></svg>Opening-day live coverage and reels</li><li><svg><use href="#i-check"/></svg>App download offer in store and on ads</li><li><svg><use href="#i-check"/></svg>Local Meta ads in a 5 km radius</li><li><svg><use href="#i-check"/></svg>QR standees and counter displays</li></ul></div>
-      <div class="ph sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="n">Phase 03</span><h3>Grow</h3><p class="t">First 30 days</p><ul><li><svg><use href="#i-check"/></svg>Weekly offers and Millmart how-to videos</li><li><svg><use href="#i-check"/></svg>Review drive for the new outlet</li><li><svg><use href="#i-check"/></svg>Retargeting store visitors and app users</li><li><svg><use href="#i-check"/></svg>Launch report with results</li></ul></div>
+      <div class="ph sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="n">Phase 01</span><h3>Tease</h3><p class="t">Weeks 1–2</p><ul><li><svg><use href="#i-check"/></svg>"Since 1972" story teaser reels</li><li><svg><use href="#i-check"/></svg>New Koolath Group Instagram, Facebook and LinkedIn</li><li><svg><use href="#i-check"/></svg>Hoardings and LED screen ads around Chamravattom and Tirur</li><li><svg><use href="#i-check"/></svg>Google Business Profiles cleaned up</li></ul></div>
+      <div class="ph dk sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="n">Phase 02</span><h3><em>Launch</em></h3><p class="t">Weeks 3–4</p><ul><li><svg><use href="#i-check"/></svg>koolathgroup.com goes live</li><li><svg><use href="#i-check"/></svg>Brand film: from the mill to every home</li><li><svg><use href="#i-check"/></svg>Local Meta ads within 5 km of the store</li><li><svg><use href="#i-check"/></svg>Flyers, standees and in-store QR codes</li></ul></div>
+      <div class="ph sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="n">Phase 03</span><h3>Grow</h3><p class="t">Month 2 onwards</p><ul><li><svg><use href="#i-check"/></svg>Weekly offers from Subani Koolath Supermarket</li><li><svg><use href="#i-check"/></svg>Ricy and Iftar recipe reels</li><li><svg><use href="#i-check"/></svg>Google review drive</li><li><svg><use href="#i-check"/></svg>Monthly report with results</li></ul></div>
     </div>
   </div>
 </section>
@@ -635,8 +646,8 @@ footer img{height:24px;width:auto}
     </div>
     <div class="road">
       <div class="lane sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="t">Start here</span><h3>Fix</h3><ol><li><span><b>Put a live page</b> on koolathgroup.com.</span></li><li><span><b>Correct the subani.in</b> product count, and add the page title, description, social links and tracking.</span></li><li><span><b>Update the Instagram</b> bio and link.</span></li><li><span><b>Set up Google Business Profiles</b> and make all listings consistent.</span></li></ol></div>
-      <div class="lane sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="t">Next 30 days</span><h3>Build</h3><ol><li><span><b>Build the group website.</b></span></li><li><span><b>Rewrite the app listings</b> and start the review drive.</span></li><li><span><b>Create the group and food-brand</b> social profiles.</span></li><li><span><b>Run the Thoovakkad + Millmart</b> launch campaign.</span></li></ol></div>
-      <div class="lane sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="t">Next 90 days</span><h3><em>Grow</em></h3><ol><li><span><b>Monthly content</b> and ads.</span></li><li><span><b>Retailer lead generation</b> for Subani Wholesale.</span></li><li><span><b>Freshee B2B campaigns</b> in Kerala and Tamil Nadu.</span></li><li><span><b>Monthly performance reports.</b></span></li></ol></div>
+      <div class="lane sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="t">Next 30 days</span><h3>Build</h3><ol><li><span><b>Build the group website.</b></span></li><li><span><b>Publish the apps under Koolath Group</b> instead of DCSS GLOBAL.</span></li><li><span><b>Create the group and food-brand</b> social profiles.</span></li><li><span><b>Run the first campaign:</b> Koolath Group goes online.</span></li></ol></div>
+      <div class="lane sel rv"><span class="hd"><i></i><i></i><i></i><i></i></span><span class="t">Next 90 days</span><h3><em>Grow</em></h3><ol><li><span><b>Monthly content</b> and ads.</span></li><li><span><b>Retailer lead generation</b> for Subani Wholesale.</span></li><li><span><b>Outdoor runs:</b> hoardings, LED screens and flyers.</span></li><li><span><b>Monthly performance reports.</b></span></li></ol></div>
     </div>
   </div>
 </section>
